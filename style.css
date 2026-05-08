@@ -3,6 +3,43 @@
    ============================================= */
 
 :root {
+  /* === Light theme (default) — bright & airy === */
+  --bg: #ffffff;                /* pure white page */
+  --bg2: #f0f9ff;               /* sky-50 — sections gain a soft blue tint */
+  --bg3: #e0f2fe;               /* sky-100 — hover / nested surfaces */
+  --surface: #ffffff;
+  --border: #cbd5e1;            /* slate-300 — visible against bright bg */
+  --accent: #0891b2;            /* cyan-600 — vibrant yet AA-readable */
+  --accent2: #8b5cf6;           /* violet-500 */
+  --accent3: #10b981;           /* emerald-500 */
+  --text: #0f172a;
+  --text-muted: #475569;        /* slate-600 — slightly darker so muted text stays readable on bright bg */
+  --text-dim: #334155;          /* slate-700 */
+  --drone: #0891b2;             /* cyan-600 */
+  --robocon: #ea580c;           /* orange-600 — pops on white */
+  --aqua: #10b981;              /* emerald-500 */
+  --biz: #8b5cf6;               /* violet-500 */
+
+  /* Effect tokens — light theme leans into colorful glows for cheerfulness */
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --scanline-color: transparent;
+  --cursor-blend: normal;
+  --grid-line: color-mix(in srgb, var(--accent) 12%, transparent);
+  --hero-glow-1: color-mix(in srgb, var(--accent) 16%, transparent);
+  --hero-glow-2: color-mix(in srgb, var(--accent2) 13%, transparent);
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+  --tag-bg: color-mix(in srgb, var(--accent) 6%, transparent);
+  --robocon-soft: color-mix(in srgb, var(--robocon) 14%, transparent);
+  --robocon-border: color-mix(in srgb, var(--robocon) 35%, transparent);
+  --accent-bg-soft: color-mix(in srgb, var(--accent) 14%, transparent);
+  --accent-border-soft: color-mix(in srgb, var(--accent) 30%, transparent);
+  --btn-primary-hover-bg: var(--text);
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  /* === Dark theme === */
   --bg: #080a0f;
   --bg2: #0d1117;
   --bg3: #131920;
@@ -18,6 +55,22 @@
   --robocon: #f59e0b;
   --aqua: #10b981;
   --biz: #a78bfa;
+
+  --nav-bg: rgba(8, 10, 15, 0.85);
+  --scanline-color: rgba(0, 0, 0, 0.03);
+  --cursor-blend: screen;
+  --grid-line: color-mix(in srgb, var(--accent) 3%, transparent);
+  --hero-glow-1: color-mix(in srgb, var(--accent) 4%, transparent);
+  --hero-glow-2: color-mix(in srgb, var(--accent2) 5%, transparent);
+  --accent-soft: color-mix(in srgb, var(--accent) 5%, transparent);
+  --tag-bg: rgba(255, 255, 255, 0.02);
+  --robocon-soft: color-mix(in srgb, var(--robocon) 10%, transparent);
+  --robocon-border: color-mix(in srgb, var(--robocon) 30%, transparent);
+  --accent-bg-soft: color-mix(in srgb, var(--accent) 10%, transparent);
+  --accent-border-soft: color-mix(in srgb, var(--accent) 20%, transparent);
+  --btn-primary-hover-bg: #ffffff;
+
+  color-scheme: dark;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,11 +94,11 @@ body {
   pointer-events: none;
   z-index: 9999;
   transition: transform 0.1s;
-  mix-blend-mode: screen;
+  mix-blend-mode: var(--cursor-blend);
 }
 .cursor-ring {
   width: 32px; height: 32px;
-  border: 1px solid rgba(0,212,255,0.4);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
@@ -63,7 +116,7 @@ nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 1.2rem 3rem;
-  background: rgba(8,10,15,0.85);
+  background: var(--nav-bg);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
 }
@@ -129,7 +182,7 @@ footer {
   font-weight: 400;
   display: inline-block;
 }
-.btn-primary:hover { background: #fff; transform: translateY(-2px); }
+.btn-primary:hover { background: var(--btn-primary-hover-bg); transform: translateY(-2px); }
 .btn-outline {
   padding: 0.85rem 2rem;
   background: transparent;
@@ -171,13 +224,13 @@ footer {
   100% { text-shadow: none; }
 }
 
-/* Scanline overlay */
+/* Scanline overlay (dark mode only — light theme sets --scanline-color: transparent) */
 body::after {
   content: '';
   position: fixed; inset: 0;
   background: repeating-linear-gradient(
     0deg, transparent, transparent 2px,
-    rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+    var(--scanline-color) 2px, var(--scanline-color) 4px
   );
   pointer-events: none;
   z-index: 9990;
@@ -198,13 +251,13 @@ body::after {
 .detail-hero-bg {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 60% 60% at 60% 50%, var(--hero-glow, rgba(0,212,255,0.05)) 0%, transparent 70%);
+    radial-gradient(ellipse 60% 60% at 60% 50%, var(--hero-glow, color-mix(in srgb, var(--cat-color, var(--accent)) 8%, transparent)) 0%, transparent 70%);
 }
 .detail-hero-grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    linear-gradient(var(--grid-line, color-mix(in srgb, var(--accent) 8%, transparent)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line, color-mix(in srgb, var(--accent) 8%, transparent)) 1px, transparent 1px);
   background-size: 60px 60px;
   mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
 }
@@ -308,7 +361,7 @@ body::after {
 .award-box {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-left: 3px solid #f59e0b;
+  border-left: 3px solid var(--robocon);
   padding: 1.5rem 2rem;
   margin-top: 1.5rem;
   display: flex; align-items: center; gap: 1.5rem;
@@ -319,7 +372,7 @@ body::after {
   font-size: 0.6rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #f59e0b;
+  color: var(--robocon);
   margin-bottom: 0.25rem;
 }
 .award-box-value {
@@ -374,13 +427,14 @@ body::after {
   transition: all 0.3s;
 }
 .detail-pagination .back:hover {
-  background: rgba(0,212,255,0.05);
+  background: var(--accent-soft);
   border-color: var(--accent);
 }
 .detail-pagination .next { justify-content: flex-end; }
 .detail-pagination .disabled { opacity: 0.3; pointer-events: none; }
 
-/* Language toggle button */
+/* Theme + Language toggle buttons (injected by theme.js / lang.js) */
+#theme-toggle,
 #lang-toggle {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
@@ -390,13 +444,27 @@ body::after {
   border: 1px solid var(--border);
   padding: 0.35rem 0.75rem;
   border-radius: 2px;
-  transition: color 0.3s, border-color 0.3s;
-  margin-left: auto;
+  transition: color 0.3s, border-color 0.3s, background 0.3s;
   flex-shrink: 0;
+  cursor: pointer;
+  margin-left: 0.5rem;
 }
+/* Whichever toggle ends up first in the nav gets pushed to the right */
+nav > #theme-toggle:first-of-type,
+nav > #lang-toggle:first-of-type {
+  margin-left: auto;
+}
+#theme-toggle {
+  padding: 0.35rem 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+#theme-toggle:hover,
 #lang-toggle:hover {
   color: var(--accent);
   border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 /* Responsive */

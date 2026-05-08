@@ -5,27 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>江口智朗 | Tomoaki Eguchi</title>
+<script>
+  // Apply saved theme before paint. Default = light (CSS :root); no system-pref auto-detect.
+  (function () {
+    try {
+      var saved = localStorage.getItem('portfolio-theme');
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    } catch (e) {}
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-  :root {
-    --bg: #080a0f;
-    --bg2: #0d1117;
-    --bg3: #131920;
-    --surface: #161d26;
-    --border: #1e2c3a;
-    --accent: #00d4ff;
-    --accent2: #7c3aed;
-    --accent3: #10b981;
-    --text: #e2e8f0;
-    --text-muted: #64748b;
-    --text-dim: #94a3b8;
-    --drone: #00d4ff;
-    --robocon: #f59e0b;
-    --aqua: #10b981;
-    --biz: #a78bfa;
-  }
+  /* Theme tokens are defined in style.css :root and :root[data-theme="dark"] */
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -50,7 +43,7 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 1.2rem 3rem;
-    background: rgba(8,10,15,0.85);
+    background: var(--nav-bg);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
   }
@@ -92,14 +85,14 @@
   .hero-bg {
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 60% 50% at 70% 50%, rgba(0,212,255,0.04) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(124,58,237,0.05) 0%, transparent 60%);
+      radial-gradient(ellipse 60% 50% at 70% 50%, var(--hero-glow-1) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, var(--hero-glow-2) 0%, transparent 60%);
   }
   .hero-grid {
     position: absolute; inset: 0;
     background-image:
-      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size: 60px 60px;
     mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
   }
@@ -165,13 +158,13 @@
     font-size: 0.7rem;
     letter-spacing: 0.08em;
     color: var(--text-dim);
-    background: rgba(255,255,255,0.02);
+    background: var(--tag-bg);
     transition: all 0.3s;
   }
   .tag:hover {
     border-color: var(--accent);
     color: var(--accent);
-    background: rgba(0,212,255,0.05);
+    background: var(--accent-soft);
   }
   .hero-cta {
     display: flex; gap: 1rem;
@@ -192,7 +185,7 @@
     transition: all 0.3s;
     font-weight: 400;
   }
-  .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+  .btn-primary:hover { background: var(--btn-primary-hover-bg); transform: translateY(-2px); }
   .btn-outline {
     padding: 0.85rem 2rem;
     background: transparent;
@@ -391,13 +384,13 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: rgba(245,158,11,0.1);
-    border: 1px solid rgba(245,158,11,0.3);
+    background: var(--robocon-soft);
+    border: 1px solid var(--robocon-border);
     padding: 0.2rem 0.6rem;
     border-radius: 2px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
-    color: #f59e0b;
+    color: var(--robocon);
     margin-top: 1rem;
   }
 
@@ -479,10 +472,10 @@
     background: var(--bg3);
     transform: translateX(4px);
   }
-  .tl-item.drone-item { border-left-color: rgba(0,212,255,0.3); }
-  .tl-item.robocon-item { border-left-color: rgba(245,158,11,0.3); }
-  .tl-item.aqua-item { border-left-color: rgba(16,185,129,0.3); }
-  .tl-item.biz-item { border-left-color: rgba(167,139,250,0.3); }
+  .tl-item.drone-item { border-left-color: color-mix(in srgb, var(--drone) 50%, transparent); }
+  .tl-item.robocon-item { border-left-color: color-mix(in srgb, var(--robocon) 50%, transparent); }
+  .tl-item.aqua-item { border-left-color: color-mix(in srgb, var(--aqua) 50%, transparent); }
+  .tl-item.biz-item { border-left-color: color-mix(in srgb, var(--biz) 50%, transparent); }
   .tl-month {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
@@ -510,8 +503,8 @@
     margin-left: 0.5rem;
     vertical-align: middle;
   }
-  .badge-award { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
-  .badge-academic { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+  .badge-award { background: var(--robocon-soft); color: var(--robocon); border: 1px solid var(--robocon-border); }
+  .badge-academic { background: var(--accent-bg-soft); color: var(--accent); border: 1px solid var(--accent-border-soft); }
 
   /* CONTACT */
   .contact-section {
@@ -525,7 +518,7 @@
   .contact-section::before {
     content: '';
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(0,212,255,0.03) 0%, transparent 70%);
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, var(--hero-glow-1) 0%, transparent 70%);
   }
   .contact-title {
     font-family: 'Bebas Neue', sans-serif;
@@ -559,7 +552,7 @@
   .contact-link:hover {
     border-color: var(--accent);
     color: var(--accent);
-    background: rgba(0,212,255,0.05);
+    background: var(--accent-soft);
   }
 
   /* FOOTER */
@@ -596,13 +589,13 @@
     transform: translateY(0);
   }
 
-  /* Scanline overlay */
+  /* Scanline overlay (dark mode only — light theme sets --scanline-color: transparent) */
   body::after {
     content: '';
     position: fixed; inset: 0;
     background: repeating-linear-gradient(
       0deg, transparent, transparent 2px,
-      rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+      var(--scanline-color) 2px, var(--scanline-color) 4px
     );
     pointer-events: none;
     z-index: 9990;
@@ -708,9 +701,9 @@
         data-ja-html="高専ロボコン<br>2020 - 2025"
         data-en-html="KOSEN Robocon<br>2020 - 2025">高専ロボコン<br>2020 - 2025</div>
       <p class="card-desc"
-        data-ja="制御・回路設計を一貫して担当。5年間参加し、2025年はコーチとしてチームをサポート。全国大会準優勝。"
-        data-en="Consistently handled control and circuit design. Competed for 5 years, and coached a team in 2025. Achieved National Tournament Runner-Up.">
-        制御・回路設計を一貫して担当。5年間参加し、2025年はコーチとしてチームをサポート。全国大会準優勝。
+        data-ja="制御・回路設計を一貫して担当。5年間参加し、2025年はコーチとしてチームをサポート。"
+        data-en="Consistently handled control and circuit design. Competed for 5 years, and coached a team in 2025.">
+        制御・回路設計を一貫して担当。5年間参加し、2025年はコーチとしてチームをサポート。
       </p>
       <ul class="card-achievements">
         <li data-ja="2020 企業賞「たけしくん」" data-en='2020 Company Award "Takeshikun"'><a href="pages/2020-robocon.html">2020 企業賞「たけしくん」</a></li>
@@ -1067,6 +1060,7 @@
   }, { threshold: 0.1 });
   fadeEls.forEach(el => observer.observe(el));
 </script>
+<script src="theme.js"></script>
 <script src="lang.js"></script>
 </body>
 </html>

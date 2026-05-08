@@ -4,11 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>高専ロボコン2023「シュッポッポ」| 江口智朗</title>
+<script>
+  // Apply saved theme before paint. Default = light (CSS :root); no system-pref auto-detect.
+  (function () {
+    try {
+      var saved = localStorage.getItem('portfolio-theme');
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    } catch (e) {}
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../style.css">
 <style>
-  :root { --cat-color: #f59e0b; }
+  :root { --cat-color: var(--robocon); }
 </style>
 </head>
 <body>
@@ -71,6 +80,7 @@
     });
   });
 </script>
+<script src="../theme.js"></script>
 <script src="../lang.js"></script>
 </body>
 </html>
